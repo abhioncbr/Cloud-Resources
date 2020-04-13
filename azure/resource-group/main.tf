@@ -1,10 +1,10 @@
 provider "azurerm" {
     features {}
     version = "=2.0.0"
-    tenant_id = var.tenant_id
-    client_id = var.client_id
-    client_secret = var.client_secret
-    subscription_id = var.subscription_id
+    tenant_id = var.app_auth ? var.tenant_id : null
+    client_id = var.app_auth ? var.client_id : null
+    client_secret = var.app_auth ? var.client_secret : null
+    subscription_id = var.subscription_provided ? var.subscription_id : null
 }
 
 resource "azurerm_resource_group" "rg" {
