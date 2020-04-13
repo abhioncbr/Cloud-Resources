@@ -333,3 +333,6 @@ ASALocalRun/
 **/*.tfstate*
 **/*.tfvars
 .terraform/
+
+#mac
+**/*.DS_Store
