@@ -1,0 +1,20 @@
+# app based authentication variables.
+    app_auth                = false or true
+    tenant_id               = ""                                            # required if app_auth=true
+    client_id               = ""                                            # required if app_auth=true
+    client_secret           = ""                                            # required if app_auth=true
+
+# subscription details,
+    subscription_provided   = false or true
+    subscription_id         = ""                                            # required if subscription_provided=true           
+
+# resource group values.
+    location                = "canadacentral"                              # valid az account list-locations
+    resource_group_name     = "tf-resource-group" 
+    tags                    = { "mantainer" = "tf", "ad-app" = "tf-app" }
+
+# virtual network values.
+    subnet_name             = "tf-subnet"
+    subnet_address_space    = ""
+    virtual_network_name    = "tf-virtual-network"
+    virtual_address_space   = [""]
