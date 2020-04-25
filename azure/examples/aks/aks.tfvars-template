@@ -1,0 +1,32 @@
+# global variables
+    tags                    = { "mantainer" = "tf", "ad-app" = "tf-app" }
+    location                = "canadacentral"                              # valid az account list-locations    
+
+# app based authentication variables.
+    tenant_id               = ""                                            
+    client_id               = ""                                            
+    client_secret           = ""                                           
+    subscription_id         = ""                                                    
+
+# resource group values.
+    resource_group_name     = "tf-resource-group" 
+
+
+# virtual network values.
+    subnet_name             = "tf-subnet"
+    subnet_address_space    = ""
+    virtual_network_name    = "tf-virtual-network"
+    virtual_address_space   = [""]
+
+# aks values.
+    name                    = "tf-aks"    
+    type                    = "VirtualMachineScaleSets"
+    vm_size                 = "Standard_D2s_v3"
+    dns_prefix              = "tf-aks"
+    service_cidr            = "10.2.0.0/24"
+    network_policy          = "azure"
+    dns_service_ip          = "10.2.0.10"
+    load_balancer_sku       = "Standard"
+    docker_bridge_cidr      = "172.17.0.1/16"  
+    kubernetes_version      = "1.16.7"
+    
