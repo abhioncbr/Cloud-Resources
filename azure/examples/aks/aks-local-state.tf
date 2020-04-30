@@ -30,6 +30,7 @@ variable dns_service_ip             {}
 variable load_balancer_sku          {}
 variable docker_bridge_cidr         {}
 variable kubernetes_version         {}
+variable http_application_routing_enabled   {}
 
 
 provider "azurerm" {
@@ -89,6 +90,10 @@ module "local-state-aks-cluster" {
     service_principal           = {
         "client_id"             = var.client_id,
         "client_secret"         = var.client_secret
+    }
+
+    http_application_routing    = {
+        "enabled"               = var.http_application_routing_enabled
     }
 
     resource_group_name         = module.local-state-resource-group.resource_group_name
