@@ -28,6 +28,13 @@ variable "resource_group_name" {
     description     = "The name of a resource group."
 }
 
+variable "http_application_routing" {
+    type            = object({
+        enabled            = bool
+    })    
+    description     = "1. enable:  Is HTTP Application Routing Enabled"
+}
+
 variable "network_profile" {
     type  = object({
         service_cidr        = string
