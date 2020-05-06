@@ -1,33 +1,18 @@
 # Main virtual network for the demonstration.
 
-# common variables.
 variable "tags"                     {}
 variable "location"                 {}
-
-# resource manager variables.
 variable "app_auth"                 {}
 variable "tenant_id"                {}
 variable "client_id"                {}
 variable "client_secret"            {}
 variable "subscription_id"          {}
 variable "subscription_provided"    {}
-
-# resource group variables.
 variable "resource_group_name"      {}
-
-# virtual network variables.
 variable "virtual_network_name"     {}
 variable "virtual_address_space"    {}
 variable "subnet_name"              {}
 variable "subnet_address_space"     {}
-
-# storage account variables.
-variable name                       {}
-variable access_tier                {}
-variable account_kind               {}
-variable account_tier               {}
-variable account_replication_type   {}
-variable enable_https_traffic_only  {}
 
 
 provider "azurerm" {
@@ -43,7 +28,7 @@ module "local-state-resource-group" {
     tags                        = var.tags
     location                    = var.location
     resource_group_name         = var.resource_group_name
-    source                      = "../../modules/resource-group"
+    source                      = "../../../modules/resource-group"
 }
 
 module "local-state-virtual-network" {
@@ -53,25 +38,45 @@ module "local-state-virtual-network" {
     subnet_address_space        = var.subnet_address_space
     virtual_network_name        = var.virtual_network_name
     virtual_address_space       = var.virtual_address_space
-    source                      = "../../modules/network/virtual-network"
+    source                      = "../../../modules/network/virtual-network"
     resource_group_name         = module.local-state-resource-group.resource_group_name
 }
 
-module "local-state-storage-account" {
-    name                        = var.name
+module "local-state-network-interface" {
     tags                        = var.tags
     location                    = var.location
-    access_tier                 = var.access_tier
-    account_kind                = var.account_kind
-    account_tier                = var.account_tier
-    source                      = "../../modules/storage-account"
+    network_interface_name      = "tf-network-interface"
+    source                      = "../../../modules/network/network-interface"
     resource_group_name         = module.local-state-resource-group.resource_group_name
 
-    account_replication_type    = var.account_replication_type
-    enable_https_traffic_only   = var.enable_https_traffic_only
-    //network_rules               = {
-        //"default_action"                = "Deny",
-        //"ip_rules"                      = [var.subnet_address_space],
-        //"virtual_network_subnet_ids"    = module.local-state-virtual-network.subnet_ids
-    //}    
+    ip_configuration            = {
+        "name"                            = "tf-net-inter"
+        "subnet_id"                       = module.local-state-virtual-network.subnet_ids[0]
+        "private_ip_address_version"      = "IPv4"
+        "private_ip_address_allocation"   = "Dynamic"
+    }    
+}
+
+module "local-state-virtual-machine" {
+    tags                                = var.tags
+    size                                = "Standard_F2"
+    location                            = var.location
+    admin_username                      = "azure_user"
+    virtual_machine_name                = "tf-virtual-machine"
+
+    source                              = "../../../modules/compute/virtual-machine"
+    network_interface_ids               = [module.local-state-network-interface.network_interface_id]   
+    resource_group_name                 = module.local-state-resource-group.resource_group_name
+
+    admin_ssh_key                       = { 
+        "username"                        = "azure_user"
+        "public_key"                      = file("~/.ssh/azure_user.pub")
+    }  
+
+    os_disk                             = {
+        "name"                            = "tf-virtual-machine-os-disk"
+        "caching"                         = "ReadWrite"
+        "disk_size_gb"                    = 100
+        "storage_account_type"            = "Standard_LRS"
+    }  
 }
