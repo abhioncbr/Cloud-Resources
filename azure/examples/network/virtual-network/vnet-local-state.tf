@@ -38,6 +38,6 @@ module "local-state-virtual-network" {
     subnet_address_space        = var.subnet_address_space
     virtual_network_name        = var.virtual_network_name
     virtual_address_space       = var.virtual_address_space
-    source                      = "../../modules/virtual-network"
+    source                      = "../../modules/network/virtual-network"
     resource_group_name         = module.local-state-resource-group.resource_group_name
 }
