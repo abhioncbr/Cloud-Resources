@@ -90,5 +90,12 @@ module "local-state-virtual-machine" {
         "caching"                         = "ReadWrite"
         "disk_size_gb"                    = 100
         "storage_account_type"            = "Standard_LRS"
+    }
+
+    source_image_reference             = {
+        "sku"                            = "18.04-LTS"
+        "offer"                          = "UbuntuServer"
+        "version"                        = "latest" 
+        "publisher"                      = "Canonical"
     }  
 }

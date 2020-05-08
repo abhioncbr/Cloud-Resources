@@ -44,6 +44,21 @@ variable "admin_ssh_key" {
                                     EOT
 }
 
+variable "source_image_reference" {
+    type  = object({
+        sku                     = string
+        offer                   = string
+        version                 = string
+        publisher               = string
+    })
+    description                 = <<EOT
+                                    1. sku:         An instance of an offer, such as a major release of a distribution. Examples: 18.04-LTS. \n
+                                    2. offer:       The name of a group of related images created by a publisher. \n
+                                    3. version:     The version number of an image SKU. \n
+                                    4. publisher:   The organization that created the image.
+                                    EOT
+}
+
 variable "os_disk" {
     type  = object({
         name                    = string
