@@ -21,9 +21,9 @@ resource "azurerm_linux_virtual_machine" "linux-virtual-machine" {
         }
 
         source_image_reference {
-            publisher               = "Canonical"
-            offer                   = "UbuntuServer"
-            sku                     = "16.04-LTS"
-            version                 = "latest"
+            sku                     = var.source_image_reference.sku          
+            offer                   = var.source_image_reference.offer        
+            version                 = var.source_image_reference.version                         
+            publisher               = var.source_image_reference.publisher
         }
 }
