@@ -71,7 +71,7 @@ module "local-state-network-interface" {
 
 module "local-state-virtual-machine" {
     tags                                = var.tags
-    size                                = "Standard_F2"
+    size                                = "Standard_D1_v2"
     location                            = var.location
     admin_username                      = "azure_user"
     virtual_machine_name                = "tf-virtual-machine"

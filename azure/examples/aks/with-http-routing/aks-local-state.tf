@@ -46,7 +46,7 @@ module "local-state-resource-group" {
     tags                        = var.tags
     location                    = var.location
     resource_group_name         = var.resource_group_name
-    source                      = "../../modules/resource-group"
+    source                      = "../../../modules/resource-group"
 }
 
 module "local-state-virtual-network" {
@@ -56,7 +56,7 @@ module "local-state-virtual-network" {
     subnet_address_space        = var.subnet_address_space
     virtual_network_name        = var.virtual_network_name
     virtual_address_space       = var.virtual_address_space
-    source                      = "../../modules/network/virtual-network"
+    source                      = "../../../modules/network/virtual-network"
     resource_group_name         = module.local-state-resource-group.resource_group_name
 }
 
@@ -65,7 +65,7 @@ module "local-state-aks-cluster" {
     tags                        = var.tags
     location                    = var.location
     dns_prefix                  = var.dns_prefix
-    source                      = "../../modules/aks"
+    source                      = "../../../modules/aks"
     kubernetes_version          = var.kubernetes_version
 
     network_profile         = {
