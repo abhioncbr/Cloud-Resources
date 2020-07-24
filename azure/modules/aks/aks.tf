@@ -35,8 +35,4 @@ resource "azurerm_kubernetes_cluster" "aks-cluster" {
             enabled             = var.http_application_routing.enabled
         }
     }
-
-        client_id           = var.service_principal.client_id
-        client_secret       = var.service_principal.client_secret
-    }
 }
