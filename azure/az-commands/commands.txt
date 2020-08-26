@@ -1,2 +1,3 @@
 AKS credentials.
 az aks get-credentials --resource-group $RESOURCE_GROUP --name $AKS_CLUSTER_NAME
+az aks get-credentials --resource-group aks-tf-rg --name aks-tf 

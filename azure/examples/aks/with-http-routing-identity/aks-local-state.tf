@@ -32,10 +32,9 @@ variable docker_bridge_cidr         {}
 variable kubernetes_version         {}
 variable http_application_routing_enabled   {}
 
-
 provider "azurerm" {
     features          {}
-    version           = "=2.0.0"
+    version           = "=2.20.0"
     tenant_id         = var.tenant_id
     client_id         = var.client_id
     client_secret     = var.client_secret
@@ -65,7 +64,7 @@ module "local-state-aks-cluster" {
     tags                        = var.tags
     location                    = var.location
     dns_prefix                  = var.dns_prefix
-    source                      = "../../../modules/aks/service-principal"
+    source                      = "../../../modules/aks/identity"
     kubernetes_version          = var.kubernetes_version
 
     network_profile         = {
@@ -87,13 +86,13 @@ module "local-state-aks-cluster" {
         "vnet_subnet_id"      = module.local-state-virtual-network.subnet_ids[0]
     }
 
+    http_application_routing    = {
+        "enabled"               = var.http_application_routing_enabled
+    }
+
     service_principal           = {
         "client_id"             = var.client_id,
         "client_secret"         = var.client_secret
-    }
-
-    http_application_routing    = {
-        "enabled"               = var.http_application_routing_enabled
     }
 
     resource_group_name         = module.local-state-resource-group.resource_group_name
