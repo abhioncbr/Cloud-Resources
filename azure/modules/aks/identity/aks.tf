@@ -29,10 +29,7 @@ resource "azurerm_kubernetes_cluster" "aks-identity-cluster" {
         enabled                 = true
 
         azure_active_directory {
-            managed             = false
-            client_app_id       = var.service_principal.client_id
-            server_app_id       = var.service_principal.client_id
-            server_app_secret   = var.service_principal.client_secret
+            managed             = true
         }
     }
 
