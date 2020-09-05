@@ -23,14 +23,15 @@ variable "subnet_address_space"     {}
 variable name                       {}
 variable type                       {}
 variable vm_size                    {}
+variable node_count                 {}
 variable dns_prefix                 {}
 variable service_cidr               {}
 variable network_policy             {}
 variable dns_service_ip             {}
+variable public_dns_name            {}
 variable load_balancer_sku          {}
 variable docker_bridge_cidr         {}
 variable kubernetes_version         {}
-variable http_application_routing_enabled   {}
 
 
 provider "azurerm" {
@@ -60,10 +61,10 @@ module "local-state-virtual-network" {
     resource_group_name         = module.local-state-resource-group.resource_group_name
 }
 
-module "local-state-private-dns-zone" {
-    name                        = var.name
+module "local-state-public-dns-zone" {
+    name                        = var.public_dns_name
     tags                        = var.tags
-    source                      = "../../../modules/dns-zone/private"
+    source                      = "../../../modules/dns-zone/public"
     resource_group_name         = module.local-state-resource-group.resource_group_name
 }
 
@@ -72,7 +73,7 @@ module "local-state-aks-cluster" {
     tags                        = var.tags
     location                    = var.location
     dns_prefix                  = var.dns_prefix
-    source                      = "../../../modules/aks"
+    source                      = "../../../modules/aks/service-principal"
     kubernetes_version          = var.kubernetes_version
 
     network_profile         = {
@@ -89,7 +90,7 @@ module "local-state-aks-cluster" {
         "name"                = "nodepool"
         "vm_size"             = var.vm_size
         "max_pods"            = 30
-        "node_count"          = 3
+        "node_count"          = var.node_count
         "os_disk_size_gb"     = 128
         "vnet_subnet_id"      = module.local-state-virtual-network.subnet_ids[0]
     }

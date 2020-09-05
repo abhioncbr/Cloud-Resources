@@ -23,6 +23,7 @@ variable "subnet_address_space"     {}
 variable name                       {}
 variable type                       {}
 variable vm_size                    {}
+variable node_count                 {}
 variable dns_prefix                 {}
 variable service_cidr               {}
 variable network_policy             {}
@@ -82,7 +83,7 @@ module "local-state-aks-cluster" {
         "name"                = "nodepool"
         "vm_size"             = var.vm_size
         "max_pods"            = 30
-        "node_count"          = 3
+        "node_count"          = var.node_count
         "os_disk_size_gb"     = 128
         "vnet_subnet_id"      = module.local-state-virtual-network.subnet_ids[0]
     }
